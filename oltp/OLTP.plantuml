@@ -3,7 +3,7 @@ entity "Doctors" {
   *FullName : VARCHAR(100) <<PK>>
   --
   Specialty : VARCHAR(100)
-  Phone : VARCHAR(15)
+  Phone : VARCHAR(25)
   Email : VARCHAR(100)
 }
 
@@ -12,7 +12,7 @@ entity "Patients" {
   *BirthDate : DATE <<PK>>
   --
   Gender : CHAR(1)
-  Phone : VARCHAR(15)
+  Phone : VARCHAR(25)
   Email : VARCHAR(100)
   Address : VARCHAR(255)
 }
