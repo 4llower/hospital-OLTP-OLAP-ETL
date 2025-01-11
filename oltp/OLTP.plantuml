@@ -1,0 +1,92 @@
+@startuml diagram
+entity "Doctors" {
+  *FullName : VARCHAR(100) <<PK>>
+  --
+  Specialty : VARCHAR(100)
+  Phone : VARCHAR(15)
+  Email : VARCHAR(100)
+}
+
+entity "Patients" {
+  *FullName : VARCHAR(100) <<PK>>
+  *BirthDate : DATE <<PK>>
+  --
+  Gender : CHAR(1)
+  Phone : VARCHAR(15)
+  Email : VARCHAR(100)
+  Address : VARCHAR(255)
+}
+
+entity "Appointments" {
+  *DoctorFullName : VARCHAR(100) <<FK>>
+  *PatientFullName : VARCHAR(100) <<FK>>
+  *PatientBirthDate : DATE <<FK>>
+  *AppointmentDate : DATETIME <<PK>>
+  --
+  Reason : VARCHAR(255)
+  Status : VARCHAR(50)
+}
+
+entity "MedicalRecords" {
+  *PatientFullName : VARCHAR(100) <<FK>>
+  *PatientBirthDate : DATE <<FK>>
+  *DoctorFullName : VARCHAR(100) <<FK>>
+  *Date : DATETIME <<PK>>
+  --
+  Diagnosis : VARCHAR(255)
+  Treatment : TEXT
+  Notes : TEXT
+}
+
+entity "Billing" {
+  *PatientFullName : VARCHAR(100) <<FK>>
+  *PatientBirthDate : DATE <<FK>>
+  *DoctorFullName : VARCHAR(100) <<FK>>
+  *AppointmentDate : DATETIME <<FK>>
+  --
+  Amount : DECIMAL(10,2)
+  BillingDate : DATETIME
+  Status : VARCHAR(50)
+}
+
+entity "Prescriptions" {
+  *PatientFullName : VARCHAR(100) <<FK>>
+  *PatientBirthDate : DATE <<FK>>
+  *DoctorFullName : VARCHAR(100) <<FK>>
+  *RecordDate : DATETIME <<FK>>
+  --
+  Medication : VARCHAR(100)
+  Dosage : VARCHAR(50)
+  Frequency : VARCHAR(50)
+  Notes : TEXT
+}
+
+entity "InsuranceDetails" {
+  *PatientFullName : VARCHAR(100) <<FK>>
+  *PatientBirthDate : DATE <<FK>>
+  --
+  Provider : VARCHAR(100)
+  PolicyNumber : VARCHAR(50)
+  ExpirationDate : DATE
+}
+
+entity "AppointmentFeedback" {
+  *PatientFullName : VARCHAR(100) <<FK>>
+  *DoctorFullName : VARCHAR(100) <<FK>>
+  *AppointmentDate : DATETIME <<FK>>
+  --
+  Rating : INT
+  Comments : TEXT
+  FeedbackDate : DATETIME
+}
+
+"Doctors" ||--o{ "Appointments" : "DoctorFullName"
+"Patients" ||--o{ "Appointments" : "PatientFullName, PatientBirthDate"
+"Patients" ||--o{ "MedicalRecords" : "PatientFullName, PatientBirthDate"
+"Doctors" ||--o{ "MedicalRecords" : "DoctorFullName"
+"Patients" ||--o{ "Billing" : "PatientFullName, PatientBirthDate"
+"Appointments" ||--o{ "Billing" : "AppointmentDate"
+"MedicalRecords" ||--o{ "Prescriptions" : "RecordDate"
+"Patients" ||--o{ "InsuranceDetails" : "PatientFullName, PatientBirthDate"
+"Appointments" ||--o{ "AppointmentFeedback" : "AppointmentDate"
+@enduml

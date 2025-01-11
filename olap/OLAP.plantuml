@@ -1,0 +1,77 @@
+@startuml diagram
+entity "FactAppointments" {
+  *AppointmentID : INT <<PK>>
+  *DoctorID : INT <<FK>>
+  *PatientID : INT <<FK>>
+  *TimeID : INT <<FK>>
+  --
+  AppointmentCount : INT
+  TotalAmountBilled : DECIMAL(10,2)
+}
+
+entity "FactBilling" {
+  *BillID : INT <<PK>>
+  *PatientID : INT <<FK>>
+  *AppointmentID : INT <<FK>>
+  *TimeID : INT <<FK>>
+  --
+  AmountBilled : DECIMAL(10,2)
+  BillingStatus : VARCHAR(50)
+}
+
+entity "DimDoctor" {
+  *DoctorID : INT <<PK>>
+  --
+  FullName : VARCHAR(100)
+  SpecialtyID : INT <<FK>>
+  Phone : VARCHAR(25)
+  Email : VARCHAR(100)
+}
+
+entity "DimPatient" {
+  *PatientID : INT <<PK>>
+  --
+  FullName : VARCHAR(100)
+  BirthDate : DATE
+  Gender : CHAR(1)
+  Phone : VARCHAR(25)
+  Email : VARCHAR(100)
+  Address : VARCHAR(255)
+}
+
+entity "DimTime" {
+  *TimeID : INT <<PK>>
+  --
+  AppointmentDate : DATETIME
+  Year : INT
+  Month : INT
+  DayOfWeek : INT
+}
+
+entity "DimSpecialty" {
+  *SpecialtyID : INT <<PK>>
+  --
+  SpecialtyName : VARCHAR(100)
+}
+
+entity "DimInsurance" {
+  *InsuranceID : INT <<PK>>
+  *PatientID : INT <<FK>>
+  --
+  Provider : VARCHAR(100)
+  PolicyNumber : VARCHAR(50)
+  ExpirationDate : DATE
+  StartDate : DATE
+  EndDate : DATE
+  IsCurrent : BOOLEAN
+}
+
+"DimDoctor" ||--o{ "FactAppointments" : "DoctorID"
+"DimPatient" ||--o{ "FactAppointments" : "PatientID"
+"DimTime" ||--o{ "FactAppointments" : "TimeID"
+"DimDoctor" ||--o{ "FactBilling" : "DoctorID"
+"DimPatient" ||--o{ "FactBilling" : "PatientID"
+"DimTime" ||--o{ "FactBilling" : "TimeID"
+"DimSpecialty" ||--o{ "DimDoctor" : "SpecialtyID"
+"DimPatient" ||--o{ "DimInsurance" : "PatientID"
+@enduml

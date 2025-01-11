@@ -1,0 +1,101 @@
+DoctorFullName,PatientFullName,PatientBirthDate,AppointmentDate,Reason,Status
+Dr. Daniel Wallace,David Howell,1998-11-27,2025-01-06,Injury,No-show
+Ashley Ortega,Kaitlyn Rivera,1974-06-20,2025-01-04,Follow-up visit,Cancelled
+Seth Jordan,David Pena,1972-12-09,2025-01-02,Injury,Completed
+Alexander Johnson,Susan Cook,2000-04-04,2025-01-03,Routine checkup,No-show
+Christina Tapia,Amanda Gonzales,1944-05-18,2025-01-03,Routine checkup,Completed
+Angela James,Matthew Schultz,1999-08-17,2025-01-10,General consultation,Cancelled
+Zachary Ward,Michelle Stafford,1964-01-19,2025-01-04,General consultation,Cancelled
+Barbara Davis,Michelle Stafford,1964-01-19,2025-01-10,Follow-up visit,No-show
+Linda Weiss,Kathleen Guzman,1962-02-16,2025-01-08,General consultation,No-show
+Samuel Williams,David Pena,1972-12-09,2025-01-04,Follow-up visit,Cancelled
+Robert Mendoza,Travis Butler,1980-06-10,2025-01-09,Follow-up visit,No-show
+Dennis Goodwin,Daniel Hess,2004-02-04,2025-01-10,Follow-up visit,No-show
+Richard Gibson,Antonio Wright,1982-10-18,2025-01-08,Flu symptoms,Completed
+Christy Sullivan,Albert Lynch,1983-03-12,2025-01-04,Routine checkup,No-show
+Harold Gray,Jade Gonzalez,1936-12-28,2025-01-09,Injury,Completed
+Alexander Johnson,Mr. Andrew Chan MD,1996-09-09,2025-01-09,General consultation,No-show
+Christy Sullivan,Sara Thompson,1953-02-01,2025-01-03,General consultation,Cancelled
+Traci Mcdonald,Alexander Rodriguez,1945-09-13,2025-01-02,Routine checkup,Cancelled
+Julie Young,Juan Davis,1973-04-20,2025-01-03,Flu symptoms,Completed
+Alexander Johnson,Diane Frazier,1976-05-06,2025-01-07,Routine checkup,No-show
+Karina Jordan,Jared Hernandez,1951-03-24,2025-01-02,Flu symptoms,Cancelled
+Samuel Williams,Matthew Davis,1991-08-29,2025-01-07,Follow-up visit,Cancelled
+Benjamin Lee,Amber Matthews,1997-12-23,2025-01-08,Routine checkup,No-show
+Linda Weiss,Jason Salazar,2000-01-13,2025-01-02,Flu symptoms,Cancelled
+Alexander Johnson,John Roy,1990-03-15,2025-01-09,Injury,Cancelled
+Lisa Fleming DVM,Stephanie Wilson,1999-10-22,2025-01-05,Follow-up visit,Cancelled
+Edwin Harper,Zachary Mercer,1938-05-24,2025-01-05,Injury,Completed
+Joe Nelson,Ashley Carter,1963-12-06,2025-01-10,Follow-up visit,Completed
+Judith Grant,Diane Frazier,1976-05-06,2025-01-07,General consultation,Cancelled
+Kimberly Garcia,Kevin Adams,1947-09-22,2025-01-04,Flu symptoms,Cancelled
+Angela James,Timothy Austin,1939-06-23,2025-01-04,Routine checkup,Cancelled
+Meghan Williams,Juan Richard DVM,1952-11-06,2025-01-09,Routine checkup,No-show
+Victoria Anderson,Jared Hernandez,1951-03-24,2025-01-05,Injury,No-show
+Chase Brown,Juan Davis,1973-04-20,2025-01-03,General consultation,Cancelled
+Barbara Davis,Pamela Morgan,1958-03-29,2025-01-03,Injury,Completed
+Victoria Anderson,Diane Frazier,1976-05-06,2025-01-09,Flu symptoms,Cancelled
+Devin Johnson,Gina Lucas,1985-10-26,2025-01-07,General consultation,No-show
+Mrs. Katherine Reyes,Victor Mccoy,1997-05-17,2025-01-08,General consultation,Completed
+Devin Johnson,Susan Cook,2000-04-04,2025-01-07,Routine checkup,No-show
+Bruce Reynolds,Sheryl Andersen,1967-09-12,2025-01-01,Follow-up visit,Completed
+Megan Reed DVM,Zachary Mercer,1938-05-24,2025-01-03,Follow-up visit,Cancelled
+Angela Ramirez,Zachary Mercer,1938-05-24,2025-01-03,Injury,No-show
+Sean Smith,Benjamin Brown,1968-03-10,2025-01-08,Flu symptoms,Cancelled
+Timothy Hansen,Theresa Sandoval,1974-08-09,2025-01-07,Follow-up visit,Cancelled
+Kaitlyn Morgan,Michael Rodriguez,1984-11-22,2025-01-04,Follow-up visit,Cancelled
+Brandon Gonzalez,Curtis Hanson,1950-05-01,2025-01-07,General consultation,Completed
+Jason Chen,Gregory Burke,1976-04-14,2025-01-02,Routine checkup,Cancelled
+Joe Myers,Steven Moore,1975-09-17,2025-01-09,General consultation,Cancelled
+Angela James,Lisa Johnson,1950-06-09,2025-01-02,Injury,Cancelled
+Lisa Fleming DVM,Jacob Fowler,2002-07-29,2025-01-05,Flu symptoms,Cancelled
+Sean Porter,Alexander Rodriguez,1945-09-13,2025-01-07,Follow-up visit,Cancelled
+Michael Carpenter,Albert Lynch,1983-03-12,2025-01-01,Flu symptoms,Cancelled
+Joe Myers,Juan Davis,1973-04-20,2025-01-03,Follow-up visit,Cancelled
+Barbara Davis,Susan Cook,2000-04-04,2025-01-08,General consultation,No-show
+Billy Greene,Darin Ward,1975-04-22,2025-01-08,General consultation,Completed
+Terri Horton,Terry Robinson,1995-11-30,2025-01-09,Follow-up visit,Cancelled
+Emily Hamilton,Steven Higgins,1970-12-03,2025-01-01,General consultation,Completed
+Tracy Wang,Darin Ward,1975-04-22,2025-01-08,Flu symptoms,Completed
+Lisa Fleming DVM,Courtney Moreno,1972-06-22,2025-01-06,Flu symptoms,No-show
+Christy Sullivan,Antonio Wright,1982-10-18,2025-01-10,Flu symptoms,Completed
+Linda Weiss,Donna Russell,1998-12-18,2025-01-07,Follow-up visit,No-show
+Clifford Lynch,Lisa Johnson,1950-06-09,2025-01-10,Routine checkup,Cancelled
+Peggy Downs,Kathleen Guzman,1962-02-16,2025-01-04,General consultation,Completed
+Mrs. Katherine Reyes,Antonio Wright,1982-10-18,2025-01-10,Routine checkup,Completed
+Kelly Rodriguez,Matthew Schultz,1999-08-17,2025-01-02,Routine checkup,No-show
+Ashley Ortega,Kathleen Guzman,1962-02-16,2025-01-01,Follow-up visit,Cancelled
+Ashley Ortega,Lauren Miller,1976-11-05,2025-01-07,Routine checkup,No-show
+Evan Rodriguez,Sheryl Andersen,1967-09-12,2025-01-06,Routine checkup,Completed
+Joe Myers,Brandon Gonzalez,2005-04-02,2025-01-05,Injury,Cancelled
+Samuel Williams,Kimberly Garcia,1994-07-01,2025-01-09,General consultation,No-show
+Evan Rodriguez,Benjamin Brown,1968-03-10,2025-01-04,Routine checkup,Completed
+Alexander Johnson,Jared Hernandez,1951-03-24,2025-01-06,General consultation,No-show
+Edward Brooks,Donald Fox,1946-06-29,2025-01-07,Follow-up visit,Completed
+Benjamin Lee,Christy Marsh,1990-07-09,2025-01-05,General consultation,No-show
+Katrina Lam,Theresa Sandoval,1974-08-09,2025-01-10,Injury,Cancelled
+Edwin Harper,Ellen Day,1999-06-26,2025-01-06,Flu symptoms,Cancelled
+Angela James,Sarah Garrett,1993-04-29,2025-01-09,Routine checkup,No-show
+Lisa Meyer,Shannon Lewis,1971-06-25,2025-01-04,General consultation,Completed
+Christopher Mcclain,Kathleen Guzman,1962-02-16,2025-01-10,Follow-up visit,Cancelled
+Sean Porter,Alexander Cochran,1985-12-05,2025-01-05,General consultation,Cancelled
+Megan Reed DVM,Jeffrey Kim,1983-12-26,2025-01-05,Flu symptoms,Cancelled
+Ryan Mccormick,Susan Cook,2000-04-04,2025-01-02,Flu symptoms,Completed
+Harold Gray,Sheryl Andersen,1967-09-12,2025-01-04,Follow-up visit,Cancelled
+Sean Smith,Stephanie Wilson,1999-10-22,2025-01-08,Follow-up visit,No-show
+Judith Grant,Brandon Gonzalez,2005-04-02,2025-01-08,Routine checkup,Cancelled
+Robert Mendoza,Juan Richard DVM,1952-11-06,2025-01-07,Follow-up visit,Cancelled
+Meghan Williams,Holly Williams,1993-04-15,2025-01-10,Injury,Completed
+Jennifer Kirby,Shannon Lewis,1971-06-25,2025-01-08,Routine checkup,Completed
+Kimberly Elliott,Samantha Holt,1952-09-18,2025-01-01,General consultation,Cancelled
+Peggy Downs,Michelle Stafford,1964-01-19,2025-01-04,Follow-up visit,No-show
+Jasmine Delgado,Travis Butler,1980-06-10,2025-01-10,Injury,Cancelled
+James Cantu,Hailey Walker,2007-01-05,2025-01-07,Follow-up visit,No-show
+Zachary Ward,Lisa Clark,1999-03-13,2025-01-01,Flu symptoms,Completed
+Tracy Fernandez,Lisa Clark,1999-03-13,2025-01-02,Routine checkup,Completed
+Chad Mcgee,Scott Salazar,1953-09-09,2025-01-10,Follow-up visit,Cancelled
+Samuel Hall,Hailey Walker,2007-01-05,2025-01-05,Routine checkup,No-show
+Mrs. Katherine Reyes,Scott Ward,1982-09-10,2025-01-10,Flu symptoms,No-show
+Natasha Walker,Brian Lawrence,1982-07-23,2025-01-06,Flu symptoms,Cancelled
+Edwin Harper,Donna Russell,1998-12-18,2025-01-06,Injury,Completed
+Kelly Rodriguez,Alexander Rodriguez,1945-09-13,2025-01-03,General consultation,Cancelled
