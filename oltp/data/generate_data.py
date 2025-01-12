@@ -50,15 +50,14 @@ def generate_medical_records(patients, doctors):
         medical_records.append([patient['FullName'], patient['BirthDate'], doctor['FullName'], fake.date_this_year(), diagnosis, treatment, notes])
     return pd.DataFrame(medical_records, columns=['PatientFullName', 'PatientBirthDate', 'DoctorFullName', 'Date', 'Diagnosis', 'Treatment', 'Notes'])
 
-def generate_billing(patients, appointments):
+def generate_billing(appointments):
     billing = []
     for _ in range(num_records):
-        patient = random.choice(patients)
         appointment = random.choice(appointments)
         amount = round(random.uniform(100, 500), 2)
         billing_date = fake.date_this_year()
         status = random.choice(['Paid', 'Pending', 'Overdue'])
-        billing.append([patient['FullName'], patient['BirthDate'], appointment['DoctorFullName'], appointment['AppointmentDate'], amount, billing_date, status])
+        billing.append([appointment['PatientFullName'], appointment['PatientBirthDate'], appointment['DoctorFullName'], appointment['AppointmentDate'], amount, billing_date, status])
     return pd.DataFrame(billing, columns=['PatientFullName', 'PatientBirthDate', 'DoctorFullName', 'AppointmentDate', 'Amount', 'BillingDate', 'Status'])
 
 def generate_prescriptions(medical_records):
@@ -97,7 +96,7 @@ doctors = generate_doctors()
 patients = generate_patients()
 appointments = generate_appointments(doctors.to_dict('records'), patients.to_dict('records'))
 medical_records = generate_medical_records(patients.to_dict('records'), doctors.to_dict('records'))
-billing = generate_billing(patients.to_dict('records'), appointments.to_dict('records'))
+billing = generate_billing(appointments.to_dict('records'))
 prescriptions = generate_prescriptions(medical_records.to_dict('records'))
 insurance_details = generate_insurance_details(patients.to_dict('records'))
 appointment_feedback = generate_appointment_feedback(appointments.to_dict('records'))

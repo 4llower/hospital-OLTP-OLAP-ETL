@@ -21,7 +21,7 @@ entity "Appointments" {
   *DoctorFullName : VARCHAR(100) <<FK>>
   *PatientFullName : VARCHAR(100) <<FK>>
   *PatientBirthDate : DATE <<FK>>
-  *AppointmentDate : TIMESTAMP <<PK>>
+  *AppointmentDate : DATE <<PK>>
   --
   Reason : VARCHAR(255)
   Status : VARCHAR(50)
@@ -31,7 +31,7 @@ entity "MedicalRecords" {
   *PatientFullName : VARCHAR(100) <<FK>>
   *PatientBirthDate : DATE <<FK>>
   *DoctorFullName : VARCHAR(100) <<FK>>
-  *Date : TIMESTAMP <<PK>>
+  *Date : DATE <<PK>>
   --
   Diagnosis : VARCHAR(255)
   Treatment : TEXT
@@ -42,10 +42,10 @@ entity "Billing" {
   *PatientFullName : VARCHAR(100) <<FK>>
   *PatientBirthDate : DATE <<FK>>
   *DoctorFullName : VARCHAR(100) <<FK>>
-  *AppointmentDate : TIMESTAMP <<FK>>
+  *AppointmentDate : DATE <<FK>>
   --
   Amount : DECIMAL(10,2)
-  BillingDate : TIMESTAMP
+  BillingDate : DATE
   Status : VARCHAR(50)
 }
 
@@ -53,7 +53,7 @@ entity "Prescriptions" {
   *PatientFullName : VARCHAR(100) <<FK>>
   *PatientBirthDate : DATE <<FK>>
   *DoctorFullName : VARCHAR(100) <<FK>>
-  *RecordDate : TIMESTAMP <<FK>>
+  *RecordDate : DATE <<FK>>
   --
   Medication : VARCHAR(100)
   Dosage : VARCHAR(50)
@@ -73,11 +73,11 @@ entity "InsuranceDetails" {
 entity "AppointmentFeedback" {
   *PatientFullName : VARCHAR(100) <<FK>>
   *DoctorFullName : VARCHAR(100) <<FK>>
-  *AppointmentDate : TIMESTAMP <<FK>>
+  *AppointmentDate : DATE <<FK>>
   --
   Rating : INT
   Comments : TEXT
-  FeedbackDate : TIMESTAMP
+  FeedbackDate : DATE
 }
 
 "Doctors" ||--o{ "Appointments" : "DoctorFullName"

@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS Appointments (
     DoctorFullName VARCHAR(100),
     PatientFullName VARCHAR(100),
     PatientBirthDate DATE,
-    AppointmentDate TIMESTAMP,
+    AppointmentDate DATE,
     Reason VARCHAR(255),
     Status VARCHAR(50)
 );
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS MedicalRecords (
     PatientFullName VARCHAR(100),
     PatientBirthDate DATE,
     DoctorFullName VARCHAR(100),
-    Date TIMESTAMP,
+    Date DATE,
     Diagnosis VARCHAR(255),
     Treatment TEXT,
     Notes TEXT
@@ -42,9 +42,9 @@ CREATE TABLE IF NOT EXISTS Billing (
     PatientFullName VARCHAR(100),
     PatientBirthDate DATE,
     DoctorFullName VARCHAR(100),
-    AppointmentDate TIMESTAMP,
+    AppointmentDate DATE,
     Amount DECIMAL(10, 2),
-    BillingDate TIMESTAMP,
+    BillingDate DATE,
     Status VARCHAR(50)
 );
 
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS Prescriptions (
     PatientFullName VARCHAR(100),
     PatientBirthDate DATE,
     DoctorFullName VARCHAR(100),
-    RecordDate TIMESTAMP,
+    RecordDate DATE,
     Medication VARCHAR(100),
     Dosage VARCHAR(50),
     Frequency VARCHAR(50),
@@ -73,10 +73,10 @@ CREATE TABLE IF NOT EXISTS AppointmentFeedback (
     FeedbackID SERIAL PRIMARY KEY,
     PatientFullName VARCHAR(100),
     DoctorFullName VARCHAR(100),
-    AppointmentDate TIMESTAMP,
+    AppointmentDate DATE,
     Rating INT,
     Comments TEXT,
-    FeedbackDate TIMESTAMP
+    FeedbackDate DATE
 );
 
 CREATE TEMP TABLE Doctors_temp (
@@ -121,7 +121,7 @@ CREATE TEMP TABLE Appointments_temp (
     DoctorFullName VARCHAR(100),
     PatientFullName VARCHAR(100),
     PatientBirthDate DATE,
-    AppointmentDate TIMESTAMP,
+    AppointmentDate DATE,
     Reason VARCHAR(255),
     Status VARCHAR(50)
 );
@@ -144,7 +144,7 @@ CREATE TEMP TABLE MedicalRecords_temp (
     PatientFullName VARCHAR(100),
     PatientBirthDate DATE,
     DoctorFullName VARCHAR(100),
-    Date TIMESTAMP,
+    Date DATE,
     Diagnosis VARCHAR(255),
     Treatment TEXT,
     Notes TEXT
@@ -168,9 +168,9 @@ CREATE TEMP TABLE Billing_temp (
     PatientFullName VARCHAR(100),
     PatientBirthDate DATE,
     DoctorFullName VARCHAR(100),
-    AppointmentDate TIMESTAMP,
+    AppointmentDate DATE,
     Amount DECIMAL(10, 2),
-    BillingDate TIMESTAMP,
+    BillingDate DATE,
     Status VARCHAR(50)
 );
 
@@ -192,7 +192,7 @@ CREATE TEMP TABLE Prescriptions_temp (
     PatientFullName VARCHAR(100),
     PatientBirthDate DATE,
     DoctorFullName VARCHAR(100),
-    RecordDate TIMESTAMP,
+    RecordDate DATE,
     Medication VARCHAR(100),
     Dosage VARCHAR(50),
     Frequency VARCHAR(50),
@@ -238,10 +238,10 @@ WHERE NOT EXISTS (
 CREATE TEMP TABLE AppointmentFeedback_temp (
     PatientFullName VARCHAR(100),
     DoctorFullName VARCHAR(100),
-    AppointmentDate TIMESTAMP,
+    AppointmentDate DATE,
     Rating INT,
     Comments TEXT,
-    FeedbackDate TIMESTAMP
+    FeedbackDate DATE
 );
 
 COPY AppointmentFeedback_temp(PatientFullName, DoctorFullName, AppointmentDate, Rating, Comments, FeedbackDate)

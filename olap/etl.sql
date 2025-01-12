@@ -1,5 +1,3 @@
--- 1) REFERENCE SCHEMA AND TABLES
-
 create schema if not exists reference;
 
 create table if not exists reference.allowed_specialties (
@@ -15,8 +13,6 @@ values
 ('Dermatology')
 on conflict (specialty) do nothing;
 
--- 2) STAGING SCHEMA AND TABLES
-
 create schema if not exists staging;
 
 create table if not exists staging.stg_doctor (
@@ -24,7 +20,7 @@ create table if not exists staging.stg_doctor (
   specialty varchar(100),
   phone varchar(25),
   email varchar(100),
-  effective_date timestamp default now(),
+  effective_date date default now(),
   last_modified timestamp default current_timestamp
 );
 
@@ -42,10 +38,11 @@ create table if not exists staging.stg_billing (
   patient_fullname varchar(100),
   patient_birthdate date,
   doctor_fullname varchar(100),
-  appointment_date timestamp,
+  appointment_date date,
   amount decimal(10,2),
-  billing_date timestamp,
+  billing_date date,
   status varchar(50),
+  appointment_id bigint, 
   last_modified timestamp default current_timestamp
 );
 
@@ -54,7 +51,7 @@ create table if not exists staging.stg_appointment (
   doctor_fullname varchar(100),
   patient_fullname varchar(100),
   patient_birthdate date,
-  appointment_date timestamp,
+  appointment_date date,
   reason varchar(255),
   status varchar(50),
   last_modified timestamp default current_timestamp
@@ -72,14 +69,12 @@ create table if not exists staging.stg_insurance (
 create table if not exists staging.stg_feedback (
   patient_fullname varchar(100),
   doctor_fullname varchar(100),
-  appointment_date timestamp,
+  appointment_date date,
   rating int,
   comments text,
-  feedback_date timestamp,
+  feedback_date date,
   last_modified timestamp default current_timestamp
 );
-
--- 3) OLAP SCHEMA AND TABLES (FACT & DIM)
 
 create schema if not exists dwh;
 
@@ -94,8 +89,8 @@ create table if not exists dwh.dim_doctor (
   specialty varchar(100),
   phone varchar(25),
   email varchar(100),
-  effective_date timestamp,
-  expiration_date timestamp,
+  effective_date date,
+  expiration_date date,
   iscurrent boolean default true
 );
 
@@ -119,14 +114,11 @@ create table if not exists dwh.dim_insurance (
 
 create table if not exists dwh.dim_datetime (
   datetime_id bigserial primary key,
-  full_datetime timestamp not null,
+  full_datetime date not null,
   date date,
   year int,
   month int,
-  day int,
-  hour int,
-  minute int,
-  second int
+  day int
 );
 
 create table if not exists dwh.dim_appointment (
@@ -145,7 +137,7 @@ create table if not exists dwh.fact_billing (
   datetime_id bigint,
   appointment_id bigint,
   amount decimal(10,2),
-  billing_date timestamp,
+  billing_date date,
   status varchar(50)
 );
 
@@ -157,12 +149,16 @@ create table if not exists dwh.fact_satisfaction (
   appointment_id bigint,
   rating int,
   comments text,
-  feedback_date timestamp
+  feedback_date date
 );
 
+--
 -- 4) IMPORT FROM FDW TABLES INTO STAGING
+--
 
-insert into staging.stg_doctor (fullname, specialty, phone, email, effective_date)
+insert into staging.stg_doctor (
+  fullname, specialty, phone, email, effective_date
+)
 select
   fullname,
   specialty,
@@ -171,7 +167,9 @@ select
   now()
 from fdw_oltp.doctors;
 
-insert into staging.stg_patient (fullname, birthdate, gender, phone, email, address)
+insert into staging.stg_patient (
+  fullname, birthdate, gender, phone, email, address
+)
 select
   fullname,
   birthdate,
@@ -191,14 +189,14 @@ insert into staging.stg_billing (
   status
 )
 select
-  patientfullname,
-  patientbirthdate,
-  doctorfullname,
-  appointmentdate,
-  amount,
-  billingdate,
-  status
-from fdw_oltp.billing;
+  b.patientfullname,
+  b.patientbirthdate,
+  b.doctorfullname,
+  b.appointmentdate,
+  b.amount,
+  b.billingdate,
+  b.status
+from fdw_oltp.billing b;
 
 insert into staging.stg_appointment (
   appointment_id,
@@ -251,8 +249,6 @@ select
   feedbackdate
 from fdw_oltp.appointmentfeedback;
 
--- 5) VALIDATE STAGING
-
 delete from staging.stg_doctor
 where specialty not in (
   select specialty from reference.allowed_specialties
@@ -282,8 +278,6 @@ where s.fullname = cte_doctor.fullname
 and s.specialty = cte_doctor.specialty
 and s.ctid <> cte_doctor.keep_ctid;
 
--- 6) INSERT DISTINCT SPECIALTIES INTO dim_specialty
-
 insert into dwh.dim_specialty (specialty)
 select distinct specialty
 from staging.stg_doctor
@@ -295,7 +289,9 @@ and not exists (
   where ds.specialty = staging.stg_doctor.specialty
 );
 
--- 7) SCD TYPE 2 FOR dim_doctor
+--
+-- SCD TYPE 2 FOR dim_doctor
+--
 
 do $$
 declare
@@ -358,7 +354,6 @@ begin
 end
 $$;
 
--- 8) LOAD dim_patient
 
 insert into dwh.dim_patient (
   fullname, birthdate, gender, phone, email, address
@@ -374,8 +369,6 @@ from staging.stg_patient
 where fullname is not null
 and birthdate is not null;
 
--- 9) LOAD dim_insurance
-
 insert into dwh.dim_insurance (
   patient_id, provider, policy_number, expiration_date
 )
@@ -389,20 +382,15 @@ join dwh.dim_patient p
   on p.fullname = s.patient_fullname
   and p.birthdate = s.patient_birthdate;
 
--- 10) LOAD dim_datetime
-
 insert into dwh.dim_datetime (
-  full_datetime, date, year, month, day, hour, minute, second
+  full_datetime, date, year, month, day
 )
 select distinct
   appointment_date,
-  date(appointment_date),
+  appointment_date,
   extract(year from appointment_date)::int,
   extract(month from appointment_date)::int,
-  extract(day from appointment_date)::int,
-  extract(hour from appointment_date)::int,
-  extract(minute from appointment_date)::int,
-  extract(second from appointment_date)::int
+  extract(day from appointment_date)::int
 from staging.stg_appointment
 where appointment_date is not null
 and not exists (
@@ -412,17 +400,14 @@ and not exists (
 );
 
 insert into dwh.dim_datetime (
-  full_datetime, date, year, month, day, hour, minute, second
+  full_datetime, date, year, month, day
 )
 select distinct
   billing_date,
-  date(billing_date),
+  billing_date,
   extract(year from billing_date)::int,
   extract(month from billing_date)::int,
-  extract(day from billing_date)::int,
-  extract(hour from billing_date)::int,
-  extract(minute from billing_date)::int,
-  extract(second from billing_date)::int
+  extract(day from billing_date)::int
 from staging.stg_billing
 where billing_date is not null
 and not exists (
@@ -432,17 +417,14 @@ and not exists (
 );
 
 insert into dwh.dim_datetime (
-  full_datetime, date, year, month, day, hour, minute, second
+  full_datetime, date, year, month, day
 )
 select distinct
   feedback_date,
-  date(feedback_date),
+  feedback_date,
   extract(year from feedback_date)::int,
   extract(month from feedback_date)::int,
-  extract(day from feedback_date)::int,
-  extract(hour from feedback_date)::int,
-  extract(minute from feedback_date)::int,
-  extract(second from feedback_date)::int
+  extract(day from feedback_date)::int
 from staging.stg_feedback
 where feedback_date is not null
 and not exists (
@@ -450,8 +432,6 @@ and not exists (
   from dwh.dim_datetime dd
   where dd.full_datetime = staging.stg_feedback.feedback_date
 );
-
--- 11) LOAD dim_appointment
 
 insert into dwh.dim_appointment (
   reason, status, patient_id, doctor_id, datetime_id
@@ -472,7 +452,21 @@ join dwh.dim_doctor d
 join dwh.dim_datetime dt
   on dt.full_datetime = s.appointment_date;
 
--- 12) FACT BILLING
+UPDATE staging.stg_billing b
+SET appointment_id = a.appointment_id
+FROM dwh.dim_appointment a
+JOIN dwh.dim_datetime dt
+  ON dt.datetime_id = a.datetime_id
+JOIN dwh.dim_patient p
+  ON p.patient_id = a.patient_id
+JOIN dwh.dim_doctor d
+  ON d.doctor_id = a.doctor_id
+WHERE b.appointment_id IS NULL
+  AND b.patient_fullname = p.fullname
+  AND b.patient_birthdate = p.birthdate
+  AND b.doctor_fullname = d.fullname
+  AND d.iscurrent = true
+  AND b.appointment_date = dt.full_datetime;
 
 insert into dwh.fact_billing (
   patient_id,
@@ -486,8 +480,8 @@ insert into dwh.fact_billing (
 select
   p.patient_id,
   d.doctor_id,
-  dd.datetime_id,
-  a.appointment_id,
+  dt_billing.datetime_id,
+  b.appointment_id,
   b.amount,
   b.billing_date,
   b.status
@@ -498,13 +492,9 @@ join dwh.dim_patient p
 join dwh.dim_doctor d
   on d.fullname = b.doctor_fullname
   and d.iscurrent = true
-left join dwh.dim_appointment a
-  on a.patient_id = p.patient_id
-  and a.doctor_id = d.doctor_id
-join dwh.dim_datetime dd
-  on dd.full_datetime = b.billing_date;
-
--- 13) FACT SATISFACTION
+left join dwh.dim_datetime dt_billing
+  on dt_billing.full_datetime = b.billing_date
+where b.billing_date is not null;
 
 insert into dwh.fact_satisfaction (
   patient_id,
@@ -518,7 +508,7 @@ insert into dwh.fact_satisfaction (
 select
   p.patient_id,
   d.doctor_id,
-  dd.datetime_id,
+  dt.datetime_id,
   a.appointment_id,
   f.rating,
   f.comments,
@@ -529,14 +519,14 @@ join dwh.dim_patient p
 join dwh.dim_doctor d
   on d.fullname = f.doctor_fullname
   and d.iscurrent = true
+left join dwh.dim_datetime dt
+  on dt.full_datetime = f.feedback_date
+left join dwh.dim_datetime dt_appt
+  on dt_appt.full_datetime = f.appointment_date
 left join dwh.dim_appointment a
   on a.patient_id = p.patient_id
   and a.doctor_id = d.doctor_id
-  and a.appointment_id is not null
-join dwh.dim_datetime dd
-  on dd.full_datetime = f.feedback_date;
-
--- 14) CLEAR STAGING
+  and a.datetime_id = dt_appt.datetime_id;
 
 delete from staging.stg_doctor;
 delete from staging.stg_patient;
