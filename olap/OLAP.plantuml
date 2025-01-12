@@ -1,77 +1,114 @@
-@startuml diagram
-entity "FactAppointments" {
-  *AppointmentID : INT <<PK>>
-  *DoctorID : INT <<FK>>
-  *PatientID : INT <<FK>>
-  *TimeID : INT <<FK>>
+@startuml OLAP_Diagram
+
+!theme plain
+hide stereotype
+
+' Fact and Dimension Entities
+entity "dim_specialty" {
+  -- PK --
+  * specialty_id : BIGSERIAL
   --
-  AppointmentCount : INT
-  TotalAmountBilled : DECIMAL(10,2)
+  specialty : VARCHAR(100)
 }
 
-entity "FactBilling" {
-  *BillID : INT <<PK>>
-  *PatientID : INT <<FK>>
-  *AppointmentID : INT <<FK>>
-  *TimeID : INT <<FK>>
+entity "dim_doctor" {
+  -- PK --
+  * doctor_id : BIGSERIAL
   --
-  AmountBilled : DECIMAL(10,2)
-  BillingStatus : VARCHAR(50)
+  fullname : VARCHAR(100)
+  specialty : VARCHAR(100)
+  phone : VARCHAR(25)
+  email : VARCHAR(100)
+  effective_date : DATE
+  expiration_date : DATE
+  iscurrent : BOOLEAN
 }
 
-entity "DimDoctor" {
-  *DoctorID : INT <<PK>>
+entity "dim_patient" {
+  -- PK --
+  * patient_id : BIGSERIAL
   --
-  FullName : VARCHAR(100)
-  SpecialtyID : INT <<FK>>
-  Phone : VARCHAR(25)
-  Email : VARCHAR(100)
+  fullname : VARCHAR(100)
+  birthdate : DATE
+  gender : CHAR(1)
+  phone : VARCHAR(25)
+  email : VARCHAR(100)
+  address : VARCHAR(255)
 }
 
-entity "DimPatient" {
-  *PatientID : INT <<PK>>
+entity "dim_insurance" {
+  -- PK --
+  * insurance_id : BIGSERIAL
   --
-  FullName : VARCHAR(100)
-  BirthDate : DATE
-  Gender : CHAR(1)
-  Phone : VARCHAR(25)
-  Email : VARCHAR(100)
-  Address : VARCHAR(255)
+  patient_id : BIGINT
+  provider : VARCHAR(100)
+  policy_number : VARCHAR(50)
+  expiration_date : DATE
 }
 
-entity "DimTime" {
-  *TimeID : INT <<PK>>
+entity "dim_datetime" {
+  -- PK --
+  * datetime_id : BIGSERIAL
   --
-  AppointmentDate : DATETIME
-  Year : INT
-  Month : INT
-  DayOfWeek : INT
+  full_datetime : DATE
+  date : DATE
+  year : INT
+  month : INT
+  day : INT
 }
 
-entity "DimSpecialty" {
-  *SpecialtyID : INT <<PK>>
+entity "dim_appointment" {
+  -- PK --
+  * appointment_id : BIGSERIAL
   --
-  SpecialtyName : VARCHAR(100)
+  reason : VARCHAR(255)
+  status : VARCHAR(50)
+  patient_id : BIGINT
+  doctor_id : BIGINT
+  datetime_id : BIGINT
 }
 
-entity "DimInsurance" {
-  *InsuranceID : INT <<PK>>
-  *PatientID : INT <<FK>>
+entity "fact_billing" {
+  -- PK --
+  * billing_id : BIGSERIAL
   --
-  Provider : VARCHAR(100)
-  PolicyNumber : VARCHAR(50)
-  ExpirationDate : DATE
-  StartDate : DATE
-  EndDate : DATE
-  IsCurrent : BOOLEAN
+  patient_id : BIGINT
+  doctor_id : BIGINT
+  datetime_id : BIGINT
+  appointment_id : BIGINT
+  amount : DECIMAL(10,2)
+  billing_date : DATE
+  status : VARCHAR(50)
 }
 
-"DimDoctor" ||--o{ "FactAppointments" : "DoctorID"
-"DimPatient" ||--o{ "FactAppointments" : "PatientID"
-"DimTime" ||--o{ "FactAppointments" : "TimeID"
-"DimDoctor" ||--o{ "FactBilling" : "DoctorID"
-"DimPatient" ||--o{ "FactBilling" : "PatientID"
-"DimTime" ||--o{ "FactBilling" : "TimeID"
-"DimSpecialty" ||--o{ "DimDoctor" : "SpecialtyID"
-"DimPatient" ||--o{ "DimInsurance" : "PatientID"
+entity "fact_satisfaction" {
+  -- PK --
+  * satisfaction_id : BIGSERIAL
+  --
+  patient_id : BIGINT
+  doctor_id : BIGINT
+  datetime_id : BIGINT
+  appointment_id : BIGINT
+  rating : INT
+  comments : TEXT
+  feedback_date : DATE
+}
+
+' Relationships
+dim_appointment }o--|| dim_patient : "patient_id"
+dim_appointment }o--|| dim_doctor : "doctor_id"
+dim_appointment }o--|| dim_datetime : "datetime_id"
+
+fact_billing }o--|| dim_patient : "patient_id"
+fact_billing }o--|| dim_doctor : "doctor_id"
+fact_billing }o--|| dim_datetime : "datetime_id"
+fact_billing }o--|| dim_appointment : "appointment_id"
+
+fact_satisfaction }o--|| dim_patient : "patient_id"
+fact_satisfaction }o--|| dim_doctor : "doctor_id"
+fact_satisfaction }o--|| dim_datetime : "datetime_id"
+fact_satisfaction }o--|| dim_appointment : "appointment_id"
+
+dim_insurance }o--|| dim_patient : "patient_id"
+
 @enduml
