@@ -13,6 +13,6 @@ OPTIONS (
 
 CREATE SCHEMA IF NOT EXISTS fdw_oltp;
 
-IMPORT FOREIGN SCHEMA public LIMIT TO (Doctors, Patients, Appointments, Billing)
+IMPORT FOREIGN SCHEMA public
   FROM SERVER oltp_server
   INTO fdw_oltp;
